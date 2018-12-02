@@ -21,9 +21,10 @@ def input():
         name = infos[1].replace('\n','')
         address = [infos[2].replace('\n',''),infos[3].replace('\n','')]
         title = infos[4].replace('\n','')
-        return which, name, address, title
+        rename = int(infos[5].replace('\n',''))
+        return which, name, address, title, rename
 
-def geneText(tex,which,name,address,title):
+def geneText(tex,which,name,address,title,rename):
     """
     write the information into .tex file and build a pdf as the company name
     move the pdf to ./letter_outfile.
@@ -65,7 +66,8 @@ def geneText(tex,which,name,address,title):
         f.writelines(lines)
     # finish modifying the tex file, then compile it.
     subprocess.run(['pdflatex',tex,'--jobname='+name])
-    os.rename(tex+'.pdf','letter_outfile/'+name+'.pdf')
+    if rename == 1:
+        os.rename(tex+'.pdf','letter_outfile/'+name+'.pdf')
     
 
 
@@ -74,6 +76,6 @@ def geneText(tex,which,name,address,title):
 
 
 if __name__ == "__main__":
-    which, name, address, title = input()
+    which, name, address, title, rename = input()
     tex = "Cover_Letter"
-    geneText(tex,which,name,address,title)
+    geneText(tex,which,name,address,title, rename)
